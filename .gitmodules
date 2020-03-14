@@ -1,0 +1,6 @@
+[submodule "Global/SRE"]
+	path = Global/SRE
+	url = git@github.com:SparkPost/sre_confluences
+[submodule "Personal"]
+	path = Personal
+	url = git@github.com:Sparkpost/wiki-tvanderpoel

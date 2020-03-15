@@ -43,7 +43,7 @@ IMPORTANT: the `davfs2` package must be installed for this mount to work. See `m
 * You have created `$HOME/confluence/local/Global` after cloning this repository
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must exist
 
-TIP: Symlink `cpublish.sh` in your path for easy usage
+TIP: Symlink `cpublish.sh` in your `$PATH` for easy usage
 
 ## The Utilities
 

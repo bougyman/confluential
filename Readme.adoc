@@ -59,7 +59,7 @@ and symlinks the confluence source file in the appropriate subtree of `./Global`
 ----
 * `cpublish.sh` - Publish files to Confluence.
 +
-This is the one script I generally symlink in `~/bin`, so it's in my path and can be run from anywhere. Example usage:
+Assuming this is in your path, Example usage:
 +
 [source,bash]
 ----
@@ -69,7 +69,7 @@ cpublish.sh ~/confluence/local/Global/Space/SubSpace/SubPage/SubPage.xml
 This will publish the xml document to `~/confluence/dav/Global/Space/SubSpace/SubPage/SubPage.txt`, which will then become a new version on your confluence wiki. The command will also output the path to the wiki page.
 +
 CAUTION: The wiki will not be updated for ~ 10 seconds, depending on your davfs write delay (default for `davfs2` in linux is to wait 10 seconds to upload, in order to avoid uploading temporary/transient files to Confluence)
-* `tidywiki.sh` - Turns the Confluence-saved "`.txt`" file into prettified xml, Usage:
+* `tidywiki.sh` - Turns the Confluence-saved "`.txt`" file into prettified xml. Assuming this is in your path, Usage:
 +
 [source,bash]
 ----

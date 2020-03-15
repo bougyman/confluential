@@ -24,7 +24,7 @@ that users of them know a thing or two about command line utilities.
 ** This can be done with davfs2 in linux, or with the methods from https://confluence.atlassian.com/doc/configuring-a-webdav-client-for-confluence-148044.html for Windows or MacOS
 +
 NOTE: Windows is not supported by these utilities unless you can run `bash` scripts
-** With linux, simply add the confluence URL to `/etc/fstab` with a mount point of $HOME/confluence/dav, such as 
+** With linux, simply add the confluence URL to `/etc/fstab` with a mount point of `$HOME/confluence/dav`, such as 
 +
 [source]
 ....

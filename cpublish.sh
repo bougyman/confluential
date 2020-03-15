@@ -1,4 +1,14 @@
 #!/bin/bash
+die() {
+    local -i code
+    local msg
+    code=$1
+    shift
+    msg=$*
+    echo "ERROR! - $msg" >&2
+    exit $code
+}
+
 urlencode() {
     local string
     string=$*
@@ -8,6 +18,8 @@ urlencode() {
 }
 : "${CONFLUENCE_ROOT:=$HOME/confluence/dav}"
 file=$1
+[ -z "$file" ] && die 1 "Must pass a single filename as an argument"
+[ -f "$file" ] || die 2 "No such file: '$file'"
 conf_dav_url=$(df | awk -v conf_dir="$CONFLUENCE_ROOT" '$NF==conf_dir{print $1}')
 just_file=${file##*/}
 file_without_extension=${just_file%%.*}

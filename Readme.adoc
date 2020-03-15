@@ -50,6 +50,11 @@ git clone https://github.com/bougyman/confluential ~/confluence/local
 ----
 ** All scripts here except for `cpublish.sh` and `tinywiki.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
 * You have created `$HOME/confluence/local/Global` _after_ cloning this repository
++
+[source,bash]
+----
+mkdir -vp ~/confluence/local/Global
+----
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must also exist
 
 TIP: Symlink `cpublish.sh` and `tinywiki.sh` in your `$PATH` for easy usage

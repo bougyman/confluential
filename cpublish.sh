@@ -53,7 +53,7 @@ local_root=Global/$local_without_global
 # Confluence Publish Directory
 confluence_input="$CONFLUENCE_ROOT/$local_root/$just_file"
 
-# Confluenct Publish File
+# Confluence Publish File
 confluence_txt=${confluence_input%.*}.txt
 
 # Publish the file to Confluence

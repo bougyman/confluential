@@ -6,6 +6,7 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
+:toc:
 
 ## What is this?
 

@@ -139,6 +139,13 @@ vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml
 vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
 asciidoctor -b xhtml5 -o ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
 ----
+.. Markdown (Using pandoc for conversion to xhtml)
++
+[source,bash]
+----
+vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.md
+pandoc -t html -o ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.md
+----
 . Publish The file to Confluence
 +
 [source,bash]

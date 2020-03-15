@@ -76,7 +76,7 @@ rsync --dry-run \
             [ -d "$local_dirname" ] || echo "'$local_dirname' (Directory) will be created"
             echo "'$conf_file' will be linked to '$local_fullpath'"
         else
-            [ -d "$local_dirname" ] || mkdir -vp "$local_dirname"
+            [ -d "$local_dirname" ] || mkdir -vp "$local_dirname" || die 4 "Could not create '$local_dirname'"
             ln -vs "$conf_file" "$local_fullpath"
         fi
     done

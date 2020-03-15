@@ -1,0 +1,34 @@
+# Confluential - Confluence CLI Workflow Helper
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+## What is this?
+
+Confluential aims to tame authoring content for Confluence. This is specifically
+created for authors who prefer to edit content directly in XML/XHTML _or_ in Markdown,
+Asciidoc, Rst, or any other file format which can output to xhtml. 
+
+## What does it do?
+
+On it's own, nothing. These utilities make certain assumptions, the first of which is
+that users of them know a thing or two about command line utilities.
+
+## The Utilities
+
+* `sync_global.sh` - Will symlink the source document for a confluence page to your local copy.
++
+This assumes you are in a directory with has a `./Global/` subdirectory, and symlinks the confluence
++
+source file in the appropriate subtree of `./Global`. Usage:
++
+[source]
+....
+./sync_global.sh ~/path/to/confluence/dav/Global/Space/SubPage/SubPage.txt
+....
+* `cpublish.sh` - Publish files to Confluence
+* `link_dav.sh` - For linking arbitrary files

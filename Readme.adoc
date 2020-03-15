@@ -43,6 +43,11 @@ IMPORTANT: the `davfs2` package must be installed for this mount to work. See `m
 * You have mounted the Confluence Wiki webdav mount at `$HOME/confluence/dav`
 ** In linux, after adding the above to your `/etc/fstab`, `mount ~/confluence/dav`
 * You have cloned this repository as `$HOME/confluence/local`
++
+[source,bash]
+----
+git clone https://github.com/bougyman/confluential ~/confluence/local
+----
 ** All scripts here except for `cpublish.sh` and `tinywiki.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
 * You have created `$HOME/confluence/local/Global` _after_ cloning this repository
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must also exist

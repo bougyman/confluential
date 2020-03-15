@@ -39,11 +39,11 @@ IMPORTANT: the `davfs2` package must be installed for this mount to work. See `m
 * You have mounted the Confluence Wiki webdav mount at `$HOME/confluence/dav`
 ** In linux, after adding the above to your `/etc/fstab`, `mount ~/confluence/dav`
 * You have cloned this repository as `$HOME/confluence/local`
-** All scripts here except for `cpublish.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
+** All scripts here except for `cpublish.sh` and `tinywiki.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
 * You have created `$HOME/confluence/local/Global` _after_ cloning this repository
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must also exist
 
-TIP: Symlink `cpublish.sh` in your `$PATH` for easy usage
+TIP: Symlink `cpublish.sh` and `tinywiki.sh` in your `$PATH` for easy usage
 
 ## The Utilities
 
@@ -69,4 +69,14 @@ cpublish.sh ~/confluence/local/Global/Space/SubSpace/SubPage/SubPage.xml
 This will publish the xml document to `~/confluence/dav/Global/Space/SubSpace/SubPage/SubPage.txt`, which will then become a new version on your confluence wiki. The command will also output the path to the wiki page.
 +
 CAUTION: The wiki will not be updated for ~ 10 seconds, depending on your davfs write delay (default for `davfs2` in linux is to wait 10 seconds to upload, in order to avoid uploading temporary/transient files to Confluence)
+* `tidywiki.sh` - Turns the Confluence-saved "`.txt`" file into prettified xml, Usage:
++
+[source,bash]
+----
+tidywiki.sh ~/confluence/local/Global/Space/Subspace/SubPage.txt
+----
++
+This will create `~/confluence/local/Global/Space/Subspace/SubPage.xml`
++
+NOTE: Requires `tidy`, an xml/xhtml prettifier, available on most platforms
 * `link_dav.sh` - For linking arbitrary files

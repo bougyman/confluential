@@ -33,13 +33,14 @@ urlencode() {
 file=$1
 [ -z "$file" ] && die 1 "Must pass a single filename as an argument"
 [ -f "$file" ] || die 2 "No such file: '$file'"
+which realpath 1>/dev/null 2>/dev/null || die 3 "'realpath' not found. Install realpath and try again"
 
 # Where confluence's webdav directory is mounted
 : "${CONFLUENCE_ROOT:=$HOME/confluence/dav}"
 
 # URL of the Confluence wiki server, derived from $CONFLUENCE_ROOT
 conf_dav_url=$(df | awk -v conf_dir="$CONFLUENCE_ROOT" '$NF==conf_dir{print $1}')
-[ -z "$conf_dav_url" ] && die 3 "Unable to find confluence mount point '$CONFLUENCE_ROOT' in \`df\`"
+[ -z "$conf_dav_url" ] && die 4 "Unable to find confluence mount point '$CONFLUENCE_ROOT' in \`df\`"
 
 # File's basename
 just_file=${file##*/}
@@ -83,7 +84,7 @@ confluence_input="$confluence_publish_directory/$just_file"
 confluence_txt=${confluence_input%.*}.txt
 
 # Publish the file to Confluence
-cp -v "$file" "$confluence_txt" || die 4 "Failed to publish $confluence_txt"
+cp -v "$file" "$confluence_txt" || die 5 "Failed to publish $confluence_txt"
 
 # Confluence published URL
 url_file=$CONFLUENCE_ROOT/$local_root/$just_file.url

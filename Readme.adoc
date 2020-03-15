@@ -16,8 +16,9 @@ Asciidoc, Rst, or any other file format which can output to xhtml.
 
 ## What does it do?
 
-On it's own, nothing. These utilities make certain assumptions, the first of which is
-that users of them know a thing or two about command line utilities.
+Nothing is automatic, nor magic. These utilities make certain assumptions, the first of which is
+that users of them know a thing or two about command line utilities. The individual utilities
+are responsible for copying files to a WEBDAV tree which must be available on your local host.
 
 ## Assumptions
 
@@ -58,7 +59,7 @@ and symlinks the confluence source file in the appropriate subtree of `./Global`
 +
 [source,bash]
 ----
-./sync_global.sh ~/confluence/dav/Global/Space/SubPage/SubPage.txt
+./sync_global.sh ~/confluence/dav/Global/Space/SubPage
 ----
 * `cpublish.sh` - Publish files to Confluence.
 +
@@ -83,3 +84,66 @@ This will create `~/confluence/local/Global/Space/Subspace/SubPage.xml`
 +
 IMPORTANT: Requires `tidy`, an xml/xhtml prettifier, available on most platforms
 * `link_dav.sh` - For linking arbitrary files
+
+== Workflow
+
+Ensure you have met all of the Assumptions, and can list files in the Confluence WEBDAV directory
+
+[source,bash]
+----
+ls ~/confluence/dav/Global/
+----
+
+=== Editing Existing Pages
+
+. Sync the space you wish to edit
++
+[source,bash]
+----
+cd ~/confluence/local
+./sync_global.sh ~/confluence/dav/Global/SomeSpace/SomeSubSpace/SomePage
+----
+. Convert the file to a cleaner format
++
+[source,bash]
+----
+./tidywiki.sh ~/confluence/local/Global/SomeSpace/SomeSubSpace/SomePage/SomePage.txt
+----
+.. You can now edit `~/confluence/local/Global/SomeSpace/SomeSubSpace/SomePage/SomePage.xml`
+. Publish The Edited file to Confluence
++
+[source,bash]
+----
+cpublish.sh ~/confluence/local/Global/SomeSpace/SomeSubSpace/SomePage/SomePage.xml
+----
+.. cpublish will output the URL where you can view the published page
+
+=== Creating New Pages
+. Create the page directory in your local tree
++
+[source,bash]
+----
+mkdir -p ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage
+----
+. Create the xhtml file with the content to publish
+.. Regular xml, with a normal editor
++
+[source,bash]
+----
+vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml
+----
+.. Asciidoc (Using asciidoctor for conversion to xhtml)
++
+[source,bash]
+----
+vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
+asciidoctor -b xhtml5 -o ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
+----
+. Publish The file to Confluence
++
+[source,bash]
+----
+cpublish.sh ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml
+----
+.. cpublish will output the URL where you can view the new page
+

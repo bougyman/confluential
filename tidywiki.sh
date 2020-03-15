@@ -8,21 +8,28 @@ source_file=$1
     echo "$source_file" does not exist 
     exit 1
 }
+
 just_file=${source_file%.*}
 txt_file=$just_file.txt
 xml_file=$just_file.xml
+
 if [ -f "$txt_file" ]
 then
     bak=${txt_file}.bak.$(date +%s)
     echo "Backing up '$txt_file' to '$bak'" >&2
-    echo cp "$txt_file" "$bak"
-fi
-if tidy -i -w 0 -xml "$source_file" > "$xml_file" 2>/dev/null
-then
-    echo "Wrote $xml_file" >&2
-else
-    code=$?
-    echo "Error writing $xml_file" >&2
-    exit $code
+    echo cp -v "$txt_file" "$bak"
 fi
 
+if tidy -i -w 0 -xml "$source_file" > "$xml_file" 2>/dev/null
+then
+    echo "Wrote '$xml_file'" >&2
+else
+    code=$?
+    echo "Error writing '$xml_file'" >&2
+    if [ ! -z "$bak" ]
+    then
+        echo "Reverting backup of '$bak' to '$xml_file'" >&2
+        mv -v "$bak" "$txt_file"
+    fi
+    exit $code
+fi

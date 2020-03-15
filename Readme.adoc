@@ -36,7 +36,7 @@ WARNING: $USER in the above must be replaced with the appropriate username(s)
 +
 IMPORTANT: the `davfs2` package must be installed for this mount to work. See `mount.davfs` for details on the mount
 * You have created a `$HOME/confluence` directory
-* You have mounted the Confluence Wiki webdave maount at `$HOME/confluence/dav`
+* You have mounted the Confluence Wiki webdav mount at `$HOME/confluence/dav`
 ** In linux, after adding the above to your `/etc/fstab`, `mount ~/confluence/dav`
 * You have cloned this repository as `$HOME/confluence/local`
 ** All scripts here are meant to run from within `$CWD` of `$HOME/confluence/local`

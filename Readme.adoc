@@ -42,6 +42,7 @@ IMPORTANT: the `davfs2` package must be installed for this mount to work. See `m
 ** All scripts here except for `cpublish.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
 * You have created `$HOME/confluence/local/Global` after cloning this repository
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must exist
+
 TIP: Symlink `cpublish.sh` in your path for easy usage
 
 ## The Utilities

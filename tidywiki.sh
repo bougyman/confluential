@@ -4,6 +4,10 @@
 # Into pretty xml files
 
 source_file=$1
+[ -f "$source_file" ] || { 
+    echo "$source_file" does not exist 
+    exit 1
+}
 just_file=${source_file%.*}
 txt_file=$just_file.txt
 xml_file=$just_file.xml

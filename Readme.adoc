@@ -27,37 +27,42 @@ that users of them know a thing or two about command line utilities.
 NOTE: Windows is not supported by these utilities unless you can run `bash` scripts
 ** With linux, simply add the confluence URL to `/etc/fstab` with a mount point of `$HOME/confluence/dav`, such as 
 +
-[source]
-....
-https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /home/$USER/confluence/dav davfs defaults,noauto,user 0 0`
-....
-+
-IMPORTANT: the `davfs2` package must be installed for this mount to work. See `mount.davfs` for details on the mount
+[source,txt]
+----
+https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /home/$USER/confluence/dav davfs defaults,noauto,user 0 0
+----
 +
 WARNING: $USER in the above must be replaced with the appropriate username(s)
++
+IMPORTANT: the `davfs2` package must be installed for this mount to work. See `mount.davfs` for details on the mount
+* You have created a `$HOME/confluence` directory
+* You have mounted the Confluence Wiki webdave maount at `$HOME/confluence/dav`
+** In linux, after adding the above to your `/etc/fstab`, `mount ~/confluence/dav`
 * You have cloned this repository as `$HOME/confluence/local`
 ** All scripts here are meant to run from within `$CWD` of `$HOME/confluence/local`
+* You have created `$HOME/confluence/local/Global` after cloning this repository
+** For editing your Personal space, `$HOME/confluence/local/Personal` must exist
 
 ## The Utilities
 
 * `sync_global.sh` - Will symlink the source documents for a confluence tree to your local copy.
 +
-This assumes you are in a directory with has a `./Global/` subdirectory, and symlinks the confluence
+This assumes you are in a directory with has a `./Global/` subdirectory (such as `~/confluence/local/`),
 +
-source file in the appropriate subtree of `./Global`. Usage:
+and symlinks the confluence source file in the appropriate subtree of `./Global`. Usage:
 +
-[source]
-....
+[source,bash]
+----
 ./sync_global.sh ~/confluence/dav/Global/Space/SubPage/SubPage.txt
-....
+----
 * `cpublish.sh` - Publish files to Confluence.
 +
 This is the one script I generally symlink in `~/bin`, so it's in my path and can be run from anywhere. Example usage:
 +
-[source]
-....
+[source,bash]
+----
 cpublish.sh ~/confluence/local/Global/Space/SubSpace/SubPage/SubPage.xml
-....
+----
 +
 This will publish the xml document to `~/confluence/dav/Global/Space/SubSpace/SubPage/SubPage.txt`, which will then become a new version on your confluence wiki. The command will also output the path to the wiki page.
 +

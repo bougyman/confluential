@@ -18,6 +18,18 @@ Asciidoc, Rst, or any other file format which can output to xhtml.
 On it's own, nothing. These utilities make certain assumptions, the first of which is
 that users of them know a thing or two about command line utilities.
 
+## Assumptions
+
+* You have a webdav path for your Confluence path
+** This can be done with davfs2 in linux, or with the methods from https://confluence.atlassian.com/doc/configuring-a-webdav-client-for-confluence-148044.html for Windows or MacOS
++
+NOTE: Windows is not supported by these utilities unless you can run `bash` scripts
+** With linux, simply add the confluence URL to /etc/fstab with a mount point of $HOME/confluence/dav, such as `https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /home/$USER/confluence/dav davfs defaults,noauto,user 0 0`
++
+WARNING: $USER in the above must be replaced with the appropriate username(s)
+* You have cloned this repository as `$HOME/confluence/local`
+** All scripts here are meant to run from within `$CWD` of `$HOME/confluence/local`
+
 ## The Utilities
 
 * `sync_global.sh` - Will symlink the source document for a confluence page to your local copy.

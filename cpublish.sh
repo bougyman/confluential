@@ -6,6 +6,7 @@ die() {
     shift
     msg=$*
     echo "ERROR! - $msg" >&2
+    # shellcheck disable=SC2086
     exit $code
 }
 
@@ -21,6 +22,7 @@ file=$1
 [ -z "$file" ] && die 1 "Must pass a single filename as an argument"
 [ -f "$file" ] || die 2 "No such file: '$file'"
 conf_dav_url=$(df | awk -v conf_dir="$CONFLUENCE_ROOT" '$NF==conf_dir{print $1}')
+[ -z "$conf_dav_url" ] && die 3 "Unable to find confluence mount point '$CONFLUENCE_ROOT' in \`df\`"
 just_file=${file##*/}
 file_without_extension=${just_file%%.*}
 local_dir=$(realpath "$(dirname "$file")")

@@ -28,7 +28,7 @@ TIP: You can accomplish both of these at once with `mkdir -p $HOME/confluence/da
 * You have a webdav path for your Confluence Wiki.
 ** This can be done with davfs2 in linux, or with the methods from https://confluence.atlassian.com/doc/configuring-a-webdav-client-for-confluence-148044.html for Windows or MacOS
 +
-NOTE: Windows is not supported by these utilities unless you can run `bash` scripts
+CAUTION: Windows is not supported by these utilities unless you can run `bash` scripts
 ** With linux, simply add the confluence URL to `/etc/fstab` with a mount point of `$HOME/confluence/dav`, such as 
 +
 [source,txt]
@@ -71,7 +71,7 @@ cpublish.sh ~/confluence/local/Global/Space/SubSpace/SubPage/SubPage.xml
 +
 This will publish the xml document to `~/confluence/dav/Global/Space/SubSpace/SubPage/SubPage.txt`, which will then become a new version on your confluence wiki. The command will also output the path to the wiki page.
 +
-CAUTION: The wiki will not be updated for ~ 10 seconds, depending on your davfs write delay (default for `davfs2` in linux is to wait 10 seconds to upload, in order to avoid uploading temporary/transient files to Confluence)
+NOTE: The wiki will not be updated for ~ 10 seconds, depending on your davfs write delay (default for `davfs2` in linux is to wait 10 seconds to upload, in order to avoid uploading temporary/transient files to Confluence)
 * `tidywiki.sh` - Turns the Confluence-saved "`.txt`" file into prettified xml. Assuming this is in your path, Usage:
 +
 [source,bash]
@@ -81,5 +81,5 @@ tidywiki.sh ~/confluence/local/Global/Space/Subspace/SubPage.txt
 +
 This will create `~/confluence/local/Global/Space/Subspace/SubPage.xml`
 +
-NOTE: Requires `tidy`, an xml/xhtml prettifier, available on most platforms
+IMPORTANT: Requires `tidy`, an xml/xhtml prettifier, available on most platforms
 * `link_dav.sh` - For linking arbitrary files

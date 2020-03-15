@@ -24,8 +24,14 @@ that users of them know a thing or two about command line utilities.
 ** This can be done with davfs2 in linux, or with the methods from https://confluence.atlassian.com/doc/configuring-a-webdav-client-for-confluence-148044.html for Windows or MacOS
 +
 NOTE: Windows is not supported by these utilities unless you can run `bash` scripts
-** With linux, simply add the confluence URL to /etc/fstab with a mount point of $HOME/confluence/dav, such as `https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /home/$USER/confluence/dav davfs defaults,noauto,user 0 0`
+** With linux, simply add the confluence URL to `/etc/fstab` with a mount point of $HOME/confluence/dav, such as 
 +
+[source]
+....
+https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /home/$USER/confluence/dav davfs defaults,noauto,user 0 0`
+....
++
+IMPORTANT: the `davfs2` package must be installed for this mount to work. See `mount.davfs` for details on the mount
 WARNING: $USER in the above must be replaced with the appropriate username(s)
 * You have cloned this repository as `$HOME/confluence/local`
 ** All scripts here are meant to run from within `$CWD` of `$HOME/confluence/local`

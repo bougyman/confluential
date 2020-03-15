@@ -15,7 +15,7 @@ urlencode() {
     string=$*
     # Expect a wall of sed here, or a tool/external replacement
     # shellcheck disable=SC2001
-    echo "$string" | sed -e 's/ /+/'
+    echo "$string" | sed -e 's/ /+/g'
 }
 
 # Where confluence's webdav directory is mounted

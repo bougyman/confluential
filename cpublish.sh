@@ -20,4 +20,4 @@ local_root=Global/$local_without_global
 confluence_input="$CONFLUENCE_ROOT/$local_root/$just_file"
 confluence_txt=${confluence_input%.*}.txt
 cp -v "$file" "$confluence_txt"
-echo "$conf_view_url/$wiki_root/$(urlencode "$file_without_extension")"
+echo "$conf_view_url/$(urlencode "$wiki_root")/$(urlencode "$file_without_extension")"

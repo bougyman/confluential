@@ -39,7 +39,7 @@ WARNING: $USER in the above must be replaced with the appropriate username(s)
 
 ## The Utilities
 
-* `sync_global.sh` - Will symlink the source document for a confluence page to your local copy.
+* `sync_global.sh` - Will symlink the source documents for a confluence tree to your local copy.
 +
 This assumes you are in a directory with has a `./Global/` subdirectory, and symlinks the confluence
 +
@@ -49,5 +49,12 @@ source file in the appropriate subtree of `./Global`. Usage:
 ....
 ./sync_global.sh ~/confluence/dav/Global/Space/SubPage/SubPage.txt
 ....
-* `cpublish.sh` - Publish files to Confluence
+* `cpublish.sh` - Publish files to Confluence.
++
+This is the one script I generally symlink in `~/bin`, so it's in my path and can be run from anywhere. Example usage:
++
+[source]
+....
+cpublish.sh ~/confluence/local/Global/Space/SubSpace/SubPage/SubPage.txt
+....
 * `link_dav.sh` - For linking arbitrary files

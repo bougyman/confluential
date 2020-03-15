@@ -47,7 +47,7 @@ source file in the appropriate subtree of `./Global`. Usage:
 +
 [source]
 ....
-./sync_global.sh ~/path/to/confluence/dav/Global/Space/SubPage/SubPage.txt
+./sync_global.sh ~/confluence/dav/Global/Space/SubPage/SubPage.txt
 ....
 * `cpublish.sh` - Publish files to Confluence
 * `link_dav.sh` - For linking arbitrary files

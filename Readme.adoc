@@ -32,6 +32,7 @@ https://confluence.yourconfluenceserver.com/plugins/servlet/confluence/default /
 ....
 +
 IMPORTANT: the `davfs2` package must be installed for this mount to work. See `mount.davfs` for details on the mount
++
 WARNING: $USER in the above must be replaced with the appropriate username(s)
 * You have cloned this repository as `$HOME/confluence/local`
 ** All scripts here are meant to run from within `$CWD` of `$HOME/confluence/local`

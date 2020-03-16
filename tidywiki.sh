@@ -13,11 +13,11 @@ just_file=${source_file%.*}
 txt_file=$just_file.txt
 xml_file=$just_file.xml
 
-if [ -f "$txt_file" ]
+if [ -f "$xml_file" ]
 then
-    bak=${txt_file}.bak.$(date +%s)
-    echo "Backing up '$txt_file' to '$bak'" >&2
-    echo cp -v "$txt_file" "$bak"
+    bak=${xml_file}.bak.$(date +%s)
+    echo "Backing up '$xml_file' to '$bak'" >&2
+    cp -v "$xml_file" "$bak"
 fi
 
 if tidy -i -w 0 -xml "$source_file" > "$xml_file" 2>/dev/null
@@ -29,7 +29,7 @@ else
     if [ ! -z "$bak" ]
     then
         echo "Reverting backup of '$bak' to '$xml_file'" >&2
-        mv -v "$bak" "$txt_file"
+        mv -v "$bak" "$xml_file"
     fi
     exit $code
 fi

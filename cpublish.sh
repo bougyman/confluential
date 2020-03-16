@@ -1,11 +1,13 @@
 #!/bin/bash
+: "${global:-Global}"
+
 usage() {
     echo "$0 will publish a page to Confluence by copying a file to the Confluence dav directory."
     echo 
     echo "$0 FILE"
     echo 
-    echo "FILE is the file to publish. It will be published to the Confluence path relative to Global"
-    echo "Example: $0 Global/SpaceName/SubDirectory/PageName/PageName.xml"
+    echo "FILE is the file to publish. It will be published to the Confluence path relative to $global"
+    echo "Example: $0 $global/SpaceName/SubDirectory/PageName/PageName.xml"
     echo "FILE should be valid xhtml"
 }
 
@@ -51,17 +53,32 @@ file_without_extension=${just_file%%.*}
 # Local directory
 local_dir=$(realpath "$(dirname "$file")")
 
-# Local directory with ^/Global/ removed
-local_without_global=${local_dir##*/Global/}
+if [[ "$local_dir" =~ /Personal/ ]]
+then
+    global=Personal
+elif [[ "$local_dir" =~ /Global/ ]]
+then
+    global=Global
+else
+    die 5 "Could not find /Global/ nor /Personal/ in $local_dir"
+fi
+
+# Local directory with /Global/ or /Personal/ removed (depending on $global)
+local_without_global=${local_dir##*/$global/}
 
 # Confluence dav directory
 wiki_root=${local_without_global%%/*}
 
 # Local root
-local_root=Global/$local_without_global
+local_root=$global/$local_without_global
 
 # Confluence Publish Directory
 confluence_publish_directory=$CONFLUENCE_ROOT/$local_root
+
+if [ "$global" == "Personal" ]
+then
+    confluence_publish_directory=$CONFLUENCE_ROOT/Personal/~$USER/$local_without_global
+fi
 
 if [ ! -d "$confluence_publish_directory" ]
 then
@@ -77,22 +94,26 @@ then
     fi
 fi
 
-# Confluence Base Filename
-confluence_input="$confluence_publish_directory/$just_file"
-
 # Confluence Publish File
-confluence_txt=${confluence_input%.*}.txt
+confluence_txt=${confluence_publish_directory}/$file_without_extension.txt
 
 # Publish the file to Confluence
-cp -v "$file" "$confluence_txt" || die 5 "Failed to publish $confluence_txt"
+cp -v "$file" "$confluence_txt" || die 6 "Failed to publish $confluence_txt"
 
 # Confluence published URL
-url_file=$CONFLUENCE_ROOT/$local_root/$just_file.url
+url_file=$confluence_publish_directory/$file_without_extension.url
 if [ -f "$url_file" ]
 then
-    conf_view_url=$(awk -F'=' '$1==URL{print $2; exit}' "$url_file")
+    conf_view_url=$(awk -F'=' '$1=="URL"{print $2; exit}' "$url_file")
+    if [ -z "$conf_view_url" ]
+    then
+        echo "Could not locate URL in $url_file" >&2
+        cat "$url_file"
+        exit
+    fi
 else
     # Fallback to default url template
+    echo "Could not find $url_file, best guess for url" >&2
     conf_view_url=${conf_dav_url%*/plugins/servlet/confluence/default}/display/$(urlencode "$wiki_root")/$(urlencode "$file_without_extension")
 fi
 

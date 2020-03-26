@@ -48,7 +48,7 @@ IMPORTANT: the `davfs2` package must be installed for this mount to work. See `m
 ----
 git clone https://github.com/bougyman/confluential ~/confluence/local
 ----
-** All scripts here except for `cpublish.sh` and `tinywiki.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
+** All scripts here except for `to_adoc.sh` `cpublish.sh` and `tinywiki.sh` are meant to run from within `$CWD` of `$HOME/confluence/local`
 * You have created `$HOME/confluence/local/Global` _after_ cloning this repository
 +
 [source,bash]
@@ -56,8 +56,10 @@ git clone https://github.com/bougyman/confluential ~/confluence/local
 mkdir -vp ~/confluence/local/Global
 ----
 ** For editing your Personal space, `$HOME/confluence/local/Personal` must also exist
++
+IMPORTANT: `$HOME/confluence/local/Personal` will publish to `$HOME/confluence/dav/Personal/~$USER`
 
-TIP: Symlink `cpublish.sh` and `tinywiki.sh` in your `$PATH` for easy usage
+TIP: Symlink `to_adoc.sh`, `cpublish.sh` and `tinywiki.sh` in your `$PATH` for easy usage
 
 ## The Utilities
 
@@ -164,3 +166,16 @@ cpublish.sh ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage
 ----
 .. cpublish will output the URL where you can view the new page
 
+=== Asciidoc Helper
+If you wish to edit in asciidoc, a helper script `to_adoc.sh` is supplied to facilitate this. It replaces
+the above workflows with a complete import/edit/publish cycle.
+
+==== Usage
+[source,bash]
+----
+cd ~/confluence/local
+./sync_global.sh ~/confluence/dav/Global/SomeSpace/SomeSubSpace/SomePage
+cd ~/confluence/local/Global/SomeSpace/SubSubSpace/SomePage
+to_adoc.sh SomePage.txt
+----
+Then just follow the prompts to_adoc.sh presents. You will be prompted before any publishing.

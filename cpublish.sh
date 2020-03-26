@@ -44,13 +44,6 @@ which realpath 1>/dev/null 2>/dev/null || die 3 "'realpath' not found. Install r
 conf_dav_url=$(df | awk -v conf_dir="$CONFLUENCE_ROOT" '$NF==conf_dir{print $1}')
 [ -z "$conf_dav_url" ] && die 4 "Unable to find confluence mount point '$CONFLUENCE_ROOT' in \`df\`"
 
-# File's basename
-just_file=${file##*/}
-
-# File's basename with no extension
-file_without_extension=${just_file%%.*}
-
-# Local directory
 local_dir=$(realpath "$(dirname "$file")")
 
 if [[ "$local_dir" =~ /Personal/ ]]
@@ -80,6 +73,12 @@ then
     confluence_publish_directory=$CONFLUENCE_ROOT/Personal/~$USER/$local_without_global
 fi
 
+# Confluence Directory Name
+confluence_directory_name=${confluence_publish_directory##*/}
+
+# Confluence bare filename
+confluence_bare_filename=${confluence_publish_directory}/${confluence_directory_name}
+
 if [ ! -d "$confluence_publish_directory" ]
 then
     echo "$confluence_publish_directory does not exist" >&2
@@ -95,13 +94,13 @@ then
 fi
 
 # Confluence Publish File
-confluence_txt=${confluence_publish_directory}/$file_without_extension.txt
+confluence_txt=${confluence_bare_filename}.txt
 
 # Publish the file to Confluence
 cp -v "$file" "$confluence_txt" || die 6 "Failed to publish $confluence_txt"
 
 # Confluence published URL
-url_file=$confluence_publish_directory/$file_without_extension.url
+url_file=${confluence_bare_filename}.url
 if [ -f "$url_file" ]
 then
     conf_view_url=$(awk -F'=' '$1=="URL"{print $2; exit}' "$url_file")
@@ -114,7 +113,7 @@ then
 else
     # Fallback to default url template
     echo "Could not find $url_file, best guess for url" >&2
-    conf_view_url=${conf_dav_url%*/plugins/servlet/confluence/default}/display/$(urlencode "$wiki_root")/$(urlencode "$file_without_extension")
+    conf_view_url=${conf_dav_url%*/plugins/servlet/confluence/default}/display/$(urlencode "$wiki_root")/$(urlencode "$confluence_directory_name")
 fi
 
 # Show the Published URL

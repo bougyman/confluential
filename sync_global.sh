@@ -80,3 +80,5 @@ rsync --dry-run \
             ln -vs "$conf_file" "$local_fullpath"
         fi
     done
+ln -vs "${confluence_path}/@versions" "$local_path"
+ln -vs "${confluence_path}/@exports" "$local_path"

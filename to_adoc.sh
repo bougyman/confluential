@@ -1,7 +1,7 @@
 #!/bin/bash
 for dep in pandoc asciidoctor tidywiki.sh cpublish.sh
 do
-    if ! which "$dep"
+    if ! which "$dep" >/dev/null
     then
         echo "This script requires '$dep' to be in your path. Install '$dep' and try again"
         exit 1
@@ -27,22 +27,26 @@ then
     exit 2
 fi
 
-confbare=${conftxt%%.*}
+confbare=${conftxt%.*}
 confxml=${confbare}.xml
 confraw=${confbare}-raw.adoc
 confmain=${confbare}.adoc
 confhtml=${confbare}.html
 
-trap 'rm -f "$confxml" "$confraw"' EXIT
+# trap 'rm -f "$confxml" "$confraw"' EXIT
 
 # Clean up the mess of txt that Confluence stores
 tidywiki.sh "$conftxt"
 
 # Replace macros (<ac: /> namespaced blockes) with [macro blocks]
-sed -e 's/<\(ac:[^>]*\)>/<pre>[\1]<\/pre>/g' "$confxml" | pandoc -f html --atx-headers -t asciidoc > "$confraw"
+sed -e 's/<\(ri:[^>]*\)>/<pre>[\1]<\/pre>/g' \
+    -e 's/<\(\/ri:[^>]*\)>/<pre>[\1]<\/pre>/g' \
+    -e 's/<\(ac:[^>]*\)>/<pre>[\1]<\/pre>/g' \
+    -e 's/<\(\/ac:[^>]*\)>/<pre>[\1]<\/pre>/g' "$confxml" | pandoc -f html --atx-headers -t asciidoc > "$confraw"
 
 # Replace [macro blocks] with passthrough blocks of <ac:macros />, so asciidoctor does not parse/modify them
-sed -e 's/\[\(ac:[^]]*\)\]/<\1>/g' "$confraw"|awk '
+sed -e 's/\[\(ac:[^]]*\)\]/<\1>/g' -e 's/\[\(\/ac:[^]]*\)\]/<\1>/g' \
+    -e 's/\[\(ri:[^]]*\)\]/<\1>/g' -e 's/\[\(\/ri:[^]]*\)\]/<\1>/g' "$confraw"|awk '
     /^....$/ && in_macro==0 {
         in_macro=1
         next
@@ -51,30 +55,39 @@ sed -e 's/\[\(ac:[^]]*\)\]/<\1>/g' "$confraw"|awk '
     /^....$/ && in_macro==1 {
         in_macro=0
         if(line) {
-            print "+++"line"+++"
-            print ""
+            printf("%s","+++"line"+++")
             line=""
         } else if(content) {
             print "...."
             print content
             print "...."
-            print ""
             content=""
         }
         next
     }
 
-    in_macro==1 && /^<ac/{
+    in_macro==1 && /^<\/?(ac|ri)/{
         line=$0
         next
     }
+
+    in_macro==1 && /^$/ { next }
 
     in_macro==1 {
         content = content"\n"$1
         next
     }
 
-    { print }' > "$confmain"
+    { print $0 }' | awk '
+        /<(ac|ri)[^\/>]*>/ { print; in_macro = 1 ; next }
+
+        /<\/(ac|ri)[^\/>]*>/ { print; in_macro = 0; next }
+
+        in_macro == 1 && /^$/ { next }
+
+        { print }
+        
+    ' > "$confmain"
 
 if ! read -p "$confmain created, may need edits before going to xhtml5. Enter to continue, Ctrl-C to abort" -r
 then

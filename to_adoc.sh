@@ -34,7 +34,7 @@ confmain=${confbare}.adoc
 confhtml=${confbare}.html
 confxhtml=${confbare}.xhtml
 
-# trap 'rm -f "$confxml" "$confraw"' EXIT
+trap 'rm -f "$confxml" "$confraw" "$confhtml"' EXIT
 
 # Clean up the mess of txt that Confluence stores
 tidywiki.sh "$conftxt"
@@ -44,6 +44,15 @@ sed -e 's/<\(ri:[^>]*\)>/<pre>[\1]<\/pre>/g' \
     -e 's/<\(\/ri:[^>]*\)>/<pre>[\1]<\/pre>/g' \
     -e 's/<\(ac:[^>]*\)>/<pre>[\1]<\/pre>/g' \
     -e 's/<\(\/ac:[^>]*\)>/<pre>[\1]<\/pre>/g' "$confxml" | pandoc -f html --atx-headers -t asciidoc > "$confraw"
+
+# Backup current adoc if it exists
+if [ -f "$confmain" ]
+then
+    sdate=$(date +%s)
+    bak="$confmain.$sdate.bak"
+    echo "Backing up $confmain to $bak" >&2
+    cp "$confmain" "$bak"
+fi
 
 # Replace [macro blocks] with passthrough blocks of <ac:macros />, so asciidoctor does not parse/modify them
 sed -e 's/\[\(ac:[^]]*\)\]/<\1>/g' -e 's/\[\(\/ac:[^]]*\)\]/<\1>/g' \

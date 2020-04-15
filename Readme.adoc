@@ -95,6 +95,15 @@ tidywiki.sh ~/confluence/local/Global/Space/Subspace/SubPage.txt
 This will create `~/confluence/local/Global/Space/Subspace/SubPage.xml`
 +
 IMPORTANT: Requires `tidy`, an xml/xhtml prettifier, available on most platforms
+* `to_adoc.sh` - A workflow which combines many of the above. Meant to be run from the local subspace
++
+[source,bash]
+----
+% cd ~/confluence/local/Global/Space/Subspace/
+% to_adoc.sh Subspace.txt
+----
++
+IMPORTANT: Both `tidywiki.sh` and `adoc_to_confluence.sh` (preferred) or `asciidoctor` must be in PATH for `to_adoc.sh`
 * `link_dav.sh` - For linking arbitrary files
 
 == Workflow
@@ -144,13 +153,23 @@ mkdir -p ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage
 ----
 vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml
 ----
-.. Asciidoc (Using asciidoctor for conversion to xhtml)
+.. Asciidoc (Using confluence-converter or asciidoctor for conversion to xhtml)
 +
 [source,bash]
 ----
 vim ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
+adoc_to_confluence.sh ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
+----
++
+Uses the Atlassian offician converter, isolated in https://github.com/amdrake93/confluence-publisher OR
++
+[source,bash]
+----
 asciidoctor -b xhtml5 -o ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.xml ~/confluence/local/Global/SomeSpace/SomeSubSpace/OtherPage/OtherPage.adoc
 ----
++
+WARNING: The asciidoctor xhtml5 backend will not format the xhtml as nicely as adoc_to_confluence.sh
++
 .. Markdown (Using pandoc for conversion to xhtml)
 +
 [source,bash]
